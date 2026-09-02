@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>English B1-B2</title>
+<meta name="description" content="Apprendre l'anglais B1-B2 par flashcards et répétition espacée : conversationnel, professionnel, cuisine, finance hôtelière.">
+<meta name="theme-color" content="#2f6f4f">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <span class="brand">🇬🇧 English B1-B2</span>
+  <nav class="nav">
+    <button class="navbtn active" data-view="dashboard">Accueil</button>
+    <button class="navbtn" data-view="stats">Progrès</button>
+    <button class="navbtn" data-view="settings">Réglages</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ================= DASHBOARD ================= -->
+  <section id="view-dashboard" class="view">
+    <div class="stat-strip">
+      <div class="stat-pill"><span id="streakCount">0</span><label>jours de suite 🔥</label></div>
+      <div class="stat-pill"><span id="newToday">0</span><label>/ <span id="newTodayLimit">20</span> nouvelles aujourd'hui</label></div>
+      <div class="stat-pill"><span id="globalMature">0</span><label>/ <span id="globalTotal">1000</span> maîtrisées</label></div>
+    </div>
+
+    <h2>Catégories</h2>
+    <div id="categoryList" class="cat-list"></div>
+  </section>
+
+  <!-- ================= SESSION ================= -->
+  <section id="view-session" class="view" hidden>
+    <div class="session-header">
+      <button id="quitSessionBtn" class="btn ghost">← Quitter</button>
+      <span id="sessionProgress">0 / 0</span>
+    </div>
+    <div class="progress-track"><div id="sessionProgressBar" class="progress-fill"></div></div>
+
+    <div id="sessionCard" class="card">
+      <p id="cardSub" class="card-sub"></p>
+      <p id="cardFront" class="card-front"></p>
+      <div id="answerArea" hidden>
+        <hr>
+        <p id="cardBack" class="card-back"></p>
+        <p id="cardExample" class="card-example"></p>
+      </div>
+      <button id="showAnswerBtn" class="btn primary block">Afficher la réponse (espace)</button>
+      <div id="gradeButtons" class="grade-row" hidden>
+        <button class="grade-btn again" data-grade="0">1 · Non acquis</button>
+        <button class="grade-btn hard" data-grade="1">2 · Difficile</button>
+        <button class="grade-btn good" data-grade="2">3 · Facile</button>
+        <button class="grade-btn easy" data-grade="3">4 · Parfait</button>
+      </div>
+    </div>
+
+    <div id="sessionEnd" class="card" hidden>
+      <h2>Session terminée 🎉</h2>
+      <p id="sessionSummary"></p>
+      <button id="endSessionBtn" class="btn primary block">Retour à l'accueil</button>
+    </div>
+  </section>
+
+  <!-- ================= STATS ================= -->
+  <section id="view-stats" class="view" hidden>
+    <h2>Progrès global</h2>
+    <div class="stat-strip">
+      <div class="stat-pill"><span id="statMature">0</span><label>maîtrisées</label></div>
+      <div class="stat-pill"><span id="statStarted">0</span><label>/ <span id="statTotal">1000</span> entamées</label></div>
+      <div class="stat-pill"><span id="statStreak">0</span><label>série actuelle</label></div>
+      <div class="stat-pill"><span id="statLongestStreak">0</span><label>meilleure série</label></div>
+    </div>
+
+    <h3>Activité — 14 derniers jours</h3>
+    <div id="dailyChart" class="day-chart"></div>
+
+    <h3>Détail par catégorie</h3>
+    <div id="statByCategory" class="stat-table"></div>
+  </section>
+
+  <!-- ================= SETTINGS ================= -->
+  <section id="view-settings" class="view" hidden>
+    <h2>Réglages</h2>
+
+    <div class="settings-group">
+      <label>Nouvelles cartes par jour
+        <input type="number" id="newPerDay" min="1" max="200">
+      </label>
+      <label>Révisions max par jour
+        <input type="number" id="reviewPerDay" min="1" max="2000">
+      </label>
+      <label>Sens des cartes
+        <select id="directionSelect">
+          <option value="mixed">Mixte (recommandé)</option>
+          <option value="en-fr">Anglais → Français</option>
+          <option value="fr-en">Français → Anglais</option>
+        </select>
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox" id="unlockAll">
+        Débloquer toutes les catégories manuellement
+      </label>
+    </div>
+
+    <h3>Objectifs (mots/phrases en mémoire long terme)</h3>
+    <div class="settings-group" id="goalsGroup">
+      <label>Anglais conversationnel <input type="number" id="goal-conversational" min="1"></label>
+      <label>Anglais professionnel <input type="number" id="goal-professional" min="1"></label>
+      <label>Cuisine professionnelle <input type="number" id="goal-culinary" min="1"></label>
+      <label>Finance hôtelière <input type="number" id="goal-finance" min="1"></label>
+    </div>
+
+    <button id="saveSettingsBtn" class="btn primary">Enregistrer</button>
+
+    <h3>Sauvegarde</h3>
+    <p class="hint">Tes données restent uniquement dans ce navigateur. Exporte régulièrement une sauvegarde, notamment avant de changer d'appareil.</p>
+    <div class="settings-actions">
+      <button id="exportBtn" class="btn">⬇ Exporter ma progression (JSON)</button>
+      <label class="btn file-btn">⬆ Importer une sauvegarde
+        <input type="file" id="importInput" accept="application/json" hidden>
+      </label>
+    </div>
+
+    <h3>Zone de danger</h3>
+    <button id="resetBtn" class="btn danger">Réinitialiser toute la progression</button>
+  </section>
+
+</main>
+
+<script defer src="js/data/conversational.js"></script>
+<script defer src="js/data/professional.js"></script>
+<script defer src="js/data/culinary.js"></script>
+<script defer src="js/data/finance.js"></script>
+<script defer src="js/data/index.js"></script>
+<script defer src="js/srs.js"></script>
+<script defer src="js/storage.js"></script>
+<script defer src="js/app.js"></script>
+</body>
+</html>
